@@ -54,7 +54,7 @@ function putStoriesOnPage() {
  * onto the page.
  */
 
- async function submitNewStory(e) {
+async function submitNewStory(e) {
   e.preventDefault();
   const title = $(".titleInput").val();
   const author = $(".authorInput").val();
@@ -67,9 +67,8 @@ function putStoriesOnPage() {
   });
 
   $allStoriesList.prepend(generateStoryMarkup(newStory));
-  $('.storyForm input').val('');
-  $('.storyForm').css('display', 'none');
-
+  $(".storyForm input").val("");
+  $(".storyForm").css("display", "none");
 }
 
 $(".storyForm").submit(submitNewStory);

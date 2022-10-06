@@ -23,8 +23,9 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    return (new URL(this.url).hostname)
-}}
+    return new URL(this.url).hostname;
+  }
+}
 
 /******************************************************************************
  * List of Story instances: used by UI to show story lists in DOM.
@@ -202,5 +203,31 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  /** Takes a story object and adds to favorites in server */
+  async addFavorite(story) {
+    const { storyId } = story;
+    const { username } = currentUser;
+    const token = currentUser.loginToken;
+
+    let response = await axios({
+      url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
+      method: "POST",
+      data: { token },
+    });
+  }
+
+  /** Takes a story object and removes from favorites in server */
+  async removeFromFavorites(story) {
+    const { storyId } = story;
+    const { username } = currentUser;
+    const token = currentUser.loginToken;
+
+    let response = await axios({
+      url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
+      method: "DELETE",
+      data: { token },
+    });
   }
 }
