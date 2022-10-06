@@ -50,24 +50,25 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** Get the data from the submit form. call addStory. Append the new story
+/** Gathers data from form input. Creates new story, and appends the new story
  * onto the page.
  */
 
-async function submitNewStory(e) {
+ async function submitNewStory(e) {
   e.preventDefault();
   const title = $(".titleInput").val();
   const author = $(".authorInput").val();
   const url = $(".linkInput").val();
 
-  await storyList.addStory(currentUser, {
+  let newStory = await storyList.addStory(currentUser, {
     title: title,
     author: author,
     url: url,
   });
 
-  //console.log("newStory", newStory);
-  //$allStoriesList.prepend(newStory);
+  storyList.stories.unshift(newStory);
+  putStoriesOnPage();
+
 }
 
 $(".storyForm").submit(submitNewStory);
