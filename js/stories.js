@@ -66,8 +66,9 @@ function putStoriesOnPage() {
     url: url,
   });
 
-  storyList.stories.unshift(newStory);
-  putStoriesOnPage();
+  $allStoriesList.prepend(generateStoryMarkup(newStory));
+  $('.storyForm input').val('');
+  $('.storyForm').css('display', 'none');
 
 }
 

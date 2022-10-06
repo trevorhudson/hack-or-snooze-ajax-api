@@ -38,9 +38,10 @@ function updateNavOnLogin() {
 }
 
 //Click on sumbit btn, visibility for form show,go AddNewStory function,
-$(".showFormBtn").on("click", navSubmitClick);
+$(".showFormBtn").on("click", showNewStoryForm);
 
-function navSubmitClick(evt) {
+/** Function displays the new story form */
+function showNewStoryForm(evt) {
   evt.preventDefault();
   $(".storyForm").css("display", "block");
 }

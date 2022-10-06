@@ -23,10 +23,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
-  }
-}
+    return (new URL(this.url).hostname)
+}}
 
 /******************************************************************************
  * List of Story instances: used by UI to show story lists in DOM.
@@ -65,17 +63,17 @@ class StoryList {
   }
 
   /** Adds story data to API, makes a Story instance, adds it to story list.
-   * - user - the current instance of User who will post the story
+   * -  user - the current instance of User who will post the story
    * - obj of {title, author, url}
    *
    * Returns the new Story instance
    */
 
-  async addStory(currentUser, newStory) {
+  async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
     //storyId, title, author, url, username, createdAt
     const { title, author, url } = newStory;
-    const token = currentUser.loginToken;
+    const token = user.loginToken;
 
     const response = await axios({
       method: "POST",
@@ -88,6 +86,8 @@ class StoryList {
         story: { storyId, username, createdAt },
       },
     } = response;
+
+    storyList.stories.unshift(newStory);
 
     return new Story({ storyId, title, author, url, username, createdAt });
   }

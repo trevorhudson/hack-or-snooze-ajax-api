@@ -33,12 +33,13 @@
     <nav>
       <div class="navbar-brand">
         <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
+        <a class="showFormBtn btn">New Story</a>
+
       </div>
       <div class="nav-right">
         <a class="nav-link" href="#" id="nav-login">login/signup</a>
         <a class="nav-link" href="#" id="nav-user-profile"></a>
         <a class="hidden" id="nav-logout" href="#"><small>(logout)</small></a>
-        <a class="showFormBtn btn">Show Form</a>
       </div>
     </nav>
 
@@ -46,9 +47,17 @@
     <section class="stories-container container">
       <!-- form to add new stories. Initally hidden -->
       <form class="storyForm" style="display: none">
+        <h1>New Story</h1>
+
+        <label>Story Title</label>
         <input class="titleInput" type="text" placeholder="Enter Story Title" />
+
+        <label>Author</label>
         <input class="authorInput" type="text" placeholder="Enter Author" />
-        <input class="linkInput" type="text" placeholder="Enter Story Link" />
+
+        <label>URL</label>
+        <input class="linkInput" type="url" placeholder="Enter Story Link" />
+
         <button class="submitFormBtn">Submit</button>
       </form>
       <!-- loading message (removed by JS after stories loaded) -->
