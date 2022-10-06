@@ -36,3 +36,11 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+//Click on sumbit btn, visibility for form show,go AddNewStory function,
+$(".showFormBtn").on("click", navSubmitClick);
+
+function navSubmitClick(evt) {
+  evt.preventDefault();
+  $(".storyForm").css("display", "block");
+}
