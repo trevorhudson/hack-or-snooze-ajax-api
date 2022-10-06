@@ -75,11 +75,18 @@ class StoryList {
     // UNIMPLEMENTED: complete this function!
     //storyId, title, author, url, username, createdAt
     const { title, author, url } = newStory;
-    let response = await axios.get(`${BASE_URL}/stories/`, {
-      params: { title: title, author: author, url: url },
-    });
-    console.log("response is", response);
-    //new Story({storyId, title, author, url, currentUser, createdAt})
+    const token = currentUser.loginToken;
+
+    const response = await axios({
+      method: 'POST',
+      url: `${BASE_URL}/stories/`,
+      data: {token, story: {title, author, url}}
+    })
+
+    const {data : {story: {storyId, username, createdAt}}} = response;
+    const story = new Story({ storyId, title, author, url, username, createdAt })
+    console.log(story)
+
   }
 }
 
