@@ -4,6 +4,10 @@
   margin: 20px 5px;
 }
 
+.hidden {
+  list-style-type: none;
+}
+
 .stories-list > li {
   color: gray;
   font-size: 0.8rem;

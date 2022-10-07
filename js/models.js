@@ -93,6 +93,8 @@ class StoryList {
     } = response;
 
     storyList.stories.unshift(newStory);
+    currentUser.ownStories.push($(newStory));
+
 
     return new Story({ storyId, title, author, url, username, createdAt });
   }
@@ -239,6 +241,24 @@ class User {
 
     //removes story from current favorites list
     this.favorites.splice(index, 1);
+  }
+
+  async removeOwnStory(story, index) {
+    const { storyId } = story;
+    const { username } = this;
+    const token = this.loginToken;
+
+    const response = await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: { token },
+    });
+
+    console.log('story removed')
+
+    //removes story from current favorites list
+    this.ownStories.splice(index, 1);
+
   }
 
   // click handler for favorites button submit

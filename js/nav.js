@@ -48,6 +48,7 @@ function showNewStoryForm(evt) {
 
 $(".favoritesList").on("click", displayFavoritesList);
 
+
 /** When clicked, display favorites list */
 function displayFavoritesList(evt) {
   console.debug("displayFavoritesList", evt);
@@ -55,4 +56,15 @@ function displayFavoritesList(evt) {
 
   hidePageComponents();
   putFavoritesOnPage();
+}
+
+$(".ownStoriesList").on("click", displayOwnStories);
+
+/** When clicked, display user stories list */
+function displayOwnStories(evt) {
+  console.debug("display own stories List", evt);
+  evt.preventDefault();
+
+  hidePageComponents();
+  putOwnStoriesOnPage();
 }

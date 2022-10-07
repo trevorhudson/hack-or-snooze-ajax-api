@@ -24,7 +24,7 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
-        <span><i class="bi ${starType}"></i></span>
+        <span class = "favorite"><i class="bi ${starType}"></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -42,6 +42,9 @@ function putStoriesOnPage() {
 
   $allStoriesList.empty();
 
+  $favoriteStoriesList.hide();
+  $ownStoriesList.hide();
+
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
@@ -58,15 +61,39 @@ function putStoriesOnPage() {
 function putFavoritesOnPage() {
   console.debug("putFavoritesOnPage");
 
-  $allStoriesList.empty();
+  $favoriteStoriesList.empty();
+
+  $allStoriesList.hide();
+  $ownStoriesList.hide();
 
   // loop through all of our stories and generate HTML for them
   for (let story of currentUser.favorites) {
     const $story = generateStoryMarkup(story);
-    $allStoriesList.append($story);
+    $favoriteStoriesList.append($story);
   }
 
-  $allStoriesList.show();
+  $favoriteStoriesList.show();
+}
+/** Gets list of own stories for current user.
+ * generates HTML, and puts on page. */
+
+function putOwnStoriesOnPage() {
+  console.debug("putOwnStoriesOnPage");
+
+  $ownStoriesList.empty();
+
+  $allStoriesList.hide();
+  $favoriteStoriesList.hide();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.ownStories) {
+    const $story = generateStoryMarkup(story);
+    $(`<span class = "trash">
+        <i class = "bi bi-trash"> </i> </span>`).prependTo($story);
+
+    $ownStoriesList.append($story);
+  }
+  $ownStoriesList.show();
 }
 
 /** Gathers data from form input. Creates new story, and appends the new story
@@ -91,6 +118,8 @@ async function submitNewStory(e) {
   $(".storyForm input").val("");
   $(".storyForm").css("display", "none");
 }
+
+$(".storyForm").submit(submitNewStory);
 
 /****************************************************************************
  * Area for Handling user favorite stories
@@ -137,8 +166,8 @@ function findIndexFavStory(story) {
 /** Takes in a storyID, and a stories object. Returns the story that matches
  * the target storyID.
  */
-function findFavStoryById(storyID, { stories }) {
-  // console.log("findFavStoryById passes in", storyID);
+function findStoryById(storyID, { stories }) {
+  // console.log("findStoryById passes in", storyID);
 
   const story = stories.find(({ storyId }) => storyId === storyID);
   console.log(story);
@@ -152,11 +181,30 @@ function handleFavoritesClick(e) {
   const $targetIcon = $(e.target);
   const $storyLi = $targetIcon.closest("li");
   const storyId = $storyLi.attr("id");
-  const $story = findFavStoryById(storyId, storyList);
+  const $story = findStoryById(storyId, storyList);
 
   toggleFavorite($story, $targetIcon);
 }
 
-$("ol").on("click", "span", handleFavoritesClick);
 
-$(".storyForm").submit(submitNewStory);
+$("ol").on("click", ".favorite", handleFavoritesClick);
+
+/***********************************************************************
+ * Area handles Own Stories
+*/
+
+
+function handleTrashClick(e) {
+  e.preventDefault();
+
+  const $targetIcon = $(e.target);
+  const $storyLi = $targetIcon.closest("li");
+  const storyId = $storyLi.attr("id");
+  const $story = findStoryById(storyId, storyList);
+
+  currentUser.removeOwnStory($story, $targetIcon);
+  $storyLi.remove();
+}
+
+
+$("ol").on("click", ".trash", handleTrashClick);
