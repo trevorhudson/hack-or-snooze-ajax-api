@@ -20,7 +20,7 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-  const starType = findFavStoryIndex(story) !== -1 ? "bi-star-fill" : "bi-star";
+  const starType = findIndexFavStory(story) !== -1 ? "bi-star-fill" : "bi-star";
 
   return $(`
       <li id="${story.storyId}">
@@ -98,10 +98,10 @@ async function submitNewStory(e) {
 
 /** Function takes in a story, and it's favorite icon DOM element.
  * Toggles the story to add to the favorites list, or remove it.
+ * Will also remove the page from the DOM.
  */
 function toggleFavorite(story, targetIcon) {
-  const { storyId } = story;
-  const index = findFavStoryIndex(story);
+  const index = findIndexFavStory(story);
 
   //if story already in favorites
   if (index === -1) {
@@ -129,8 +129,8 @@ function changeIcon(eventTarget) {
 /** Function searches favorites stories for the target story
  * Takes in a story, returns the index of the story if found, or -1.
  */
-function findFavStoryIndex(story) {
-  // console.log("findFavStoryIndex passes in", story);
+function findIndexFavStory(story) {
+  // console.log("findIndexFavStory passes in", story);
 
   return currentUser.favorites.findIndex(
     ({ storyId }) => storyId === story.storyId
@@ -152,11 +152,14 @@ function findFavStoryById(storyID, { stories }) {
 function handleFavoritesClick(e) {
   e.preventDefault();
 
-  const targetIcon = $(e.target);
-  const storyID = targetIcon.closest("li")[0].id;
-  const story = findFavStoryById(storyID, storyList);
+  const $targetIcon = $(e.target);
+  const $storyLi = $targetIcon.closest("li")
+  const storyId = $storyLi[0].id
+  const $story = findFavStoryById(storyId, storyList);
 
-  toggleFavorite(story, targetIcon);
+  toggleFavorite($story, $targetIcon);
+  $storyLi.remove();
+
 
 }
 
