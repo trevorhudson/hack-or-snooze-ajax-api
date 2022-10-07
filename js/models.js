@@ -219,50 +219,76 @@ class User {
     const { username } = currentUser;
     const token = currentUser.loginToken;
 
-    // check if story is in favorites. return if already in favorites. else continue
-
-    // if story already in favorites, return;
-    if (this.findMatchingStoryID(story) !== -1){
-      return;
-    }
-
     const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
       method: "POST",
       data: { token },
     });
 
-    //
-
-
-    // add to current favorites list
+    // add story to current favorites list
     currentUser.favorites.push(story);
 
   }
 
-  /** Takes a story object and removes from favorites in server */
-  async removeFromFavorites(story) {
+  /** Takes a story object and an index, removes story from favorites list */
+  async removeFavorite(story, index) {
     const { storyId } = story;
     const { username } = currentUser;
     const token = currentUser.loginToken;
 
-    let response = await axios({
+    const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
       method: "DELETE",
       data: { token },
     });
 
-    // checks for matching story, removes from current favorites
-    currentUser.favorites.splice(this.findMatchingStoryID(story), 1);
+   //removes story from current favorites list
+    currentUser.favorites.splice(index, 1);
+
+  }
+
+  /** Takes in a story. Function adds the story to the favorites list if it is
+   * not present, or removes it if it already exists.
+    */
+  toggleFavorite(story) {
+    const { favorites } = currentUser;
+    const eventStoryID = Story.getStoryID(story);
+    const index = this.findIndexFavoriteStory(eventStoryID);
+
+    //if story already in favorites
+    if (index === -1) {
+      this.addFavorite(story);
+      return 'Story added to favorites'
+
+      // if story not in favorites
+    } else {
+      this.removeFavorite(story, index);
+      return 'Story removed to favorites'
+    }
 
   }
 
 
-  /** finds Index of a target story in favorites */
-  findMatchingStoryID(story){
-    const {favorites} = currentUser;
-    return favorites.indexOf(story);
+  /** checks the current favorite stories. takes in a story ID. returns
+   * the index of the story if found, or -1 if not found.
+   */
+  findIndexFavoriteStory(eventStoryID) {
+    const { favorites } = currentUser;
+    return favorites.findIndex(({ storyId }) => storyId === eventStoryID);
   }
+
+  // click handler for favorites button submit
+  // calls isFavorite function
+
+  handleFavoritesClick(e) {
+    e.preventDefault();
+    const { story } = e.target;
+    this.toggleFavorite(story);
+
+  }
+
+
+
 
 
 
