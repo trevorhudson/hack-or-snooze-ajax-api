@@ -18,12 +18,18 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
+
+{/* <i class="bi bi-star"></i>
+<i class="bi bi-moon-stars-fill"></i>; */}
+
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
+  // TODO: ADD A FAVORITES ICON;//
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        <span><i= class="bi bi-star"></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -70,5 +76,85 @@ async function submitNewStory(e) {
   $(".storyForm input").val("");
   $(".storyForm").css("display", "none");
 }
+
+
+/****************************************************************************
+ * Area for Handling user favorite stories
+ */
+
+
+/** favorites button handler function:
+ * On click, toggle class of icon. (from black to white)
+ * add or remove item from favorites */
+
+
+
+/** TODO:Takes in a story. Function adds the story to the favorites list if it is
+   * not present, or removes it if it already exists.
+   *
+   *
+    */
+function toggleFavorite(storyId) {
+  // const {story} = event.target
+
+  const { favorites } = currentUser;
+  // get story by ID
+
+
+
+// toggle icon on or off:
+
+// if target has class of ON
+  // then remove from favorites
+// if target has class of OFF
+  // add to favorite
+
+
+  // const eventStoryID = Story.getStoryID(story);
+  const index = findIndexFavoriteStory(storyId, favorites);
+
+  //if story already in favorites
+  if (index === -1) {
+    currentUser.addFavorite(story);
+    // toggle favorites icon ON
+    return 'Story added to favorites';
+
+    // if story not in favorites
+  } else {
+    currentUser.removeFavorite(story, index);
+    // toggle favorites icon OFF
+    return 'Story removed to favorites';
+  }
+
+}
+
+/** TODO:checks the current favorite stories. takes in a story ID. returns
+   * the index of the story if found, or -1 if not found.
+   */
+function findIndexOfStory(eventStoryID, favorites) {
+  return favorites.findIndex(({ storyId }) => storyId === eventStoryID);
+}
+
+/** Takes in a storyID, and a stories object. Returns the story that matches
+ * the target storyID.
+ */
+function findStoryById(eventStoryID, {stories}){
+  return stories.find(({ storyId }) => storyId === eventStoryID)
+}
+
+// TODO: click handler for favorites button submit
+// calls isFavorite function
+
+function handleFavoritesClick(e) {
+  e.preventDefault();
+  const storyID = $(e.target).closest('li')[0].id
+  toggleFavorite(storyID);
+  // call toggleFavorite(story)
+
+  // const { story } = e.target;
+  // this.toggleFavorite(story);
+}
+
+$('ol').on('click', 'span', handleFavoritesClick);
 
 $(".storyForm").submit(submitNewStory);

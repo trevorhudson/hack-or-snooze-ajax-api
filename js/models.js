@@ -67,7 +67,7 @@ class StoryList {
     return new StoryList(stories);
   }
 
-  /** Adds story data to API, makes a Story instance, adds it to story list.
+  /** Adds story data to API, takes a Story instance, adds it to story list.
    * -  user - the current instance of User who will post the story
    * - obj of {title, author, url}
    *
@@ -247,35 +247,7 @@ class User {
 
   }
 
-  /** Takes in a story. Function adds the story to the favorites list if it is
-   * not present, or removes it if it already exists.
-    */
-  toggleFavorite(story) {
-    const { favorites } = currentUser;
-    const eventStoryID = Story.getStoryID(story);
-    const index = this.findIndexFavoriteStory(eventStoryID);
 
-    //if story already in favorites
-    if (index === -1) {
-      this.addFavorite(story);
-      return 'Story added to favorites'
-
-      // if story not in favorites
-    } else {
-      this.removeFavorite(story, index);
-      return 'Story removed to favorites'
-    }
-
-  }
-
-
-  /** checks the current favorite stories. takes in a story ID. returns
-   * the index of the story if found, or -1 if not found.
-   */
-  findIndexFavoriteStory(eventStoryID) {
-    const { favorites } = currentUser;
-    return favorites.findIndex(({ storyId }) => storyId === eventStoryID);
-  }
 
   // click handler for favorites button submit
   // calls isFavorite function

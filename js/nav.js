@@ -45,3 +45,4 @@ function showNewStoryForm(evt) {
   evt.preventDefault();
   $(".storyForm").css("display", "block");
 }
+
