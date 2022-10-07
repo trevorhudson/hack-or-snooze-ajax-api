@@ -108,13 +108,16 @@ async function submitNewStory(e) {
   const author = $(".authorInput").val();
   const url = $(".linkInput").val();
 
-  let newStory = await storyList.addStory(currentUser, {
+  let $newStory = await storyList.addStory(currentUser, {
     title: title,
     author: author,
     url: url,
   });
 
-  $allStoriesList.prepend(generateStoryMarkup(newStory));
+  $allStoriesList.prepend(generateStoryMarkup($newStory));
+  storyList.stories.unshift($newStory);
+  //console.log(newStory, "newStory");
+  currentUser.ownStories.push($newStory);
   $(".storyForm input").val("");
   $(".storyForm").css("display", "none");
 }
@@ -156,7 +159,7 @@ function changeIcon(eventTarget) {
  * Takes in a story, returns the index of the story if found, or -1.
  */
 function findIndexFavStory(story) {
-  // console.log("findIndexFavStory passes in", story);
+  console.log("findIndexFavStory passes in", story);
 
   return currentUser.favorites.findIndex(
     ({ storyId }) => storyId === story.storyId
@@ -177,22 +180,21 @@ function findStoryById(storyID, { stories }) {
 /** function handles clicks to each stories favorites icon.  */
 function handleFavoritesClick(e) {
   e.preventDefault();
-
   const $targetIcon = $(e.target);
   const $storyLi = $targetIcon.closest("li");
   const storyId = $storyLi.attr("id");
+  console.log(storyId, "storyIf");
+  console.log($storyLi, "$storyList");
   const $story = findStoryById(storyId, storyList);
 
   toggleFavorite($story, $targetIcon);
 }
 
-
 $("ol").on("click", ".favorite", handleFavoritesClick);
 
 /***********************************************************************
  * Area handles Own Stories
-*/
-
+ */
 
 function handleTrashClick(e) {
   e.preventDefault();
@@ -201,10 +203,9 @@ function handleTrashClick(e) {
   const $storyLi = $targetIcon.closest("li");
   const storyId = $storyLi.attr("id");
   const $story = findStoryById(storyId, storyList);
-
+  console.log($(story), story);
   currentUser.removeOwnStory($story, $targetIcon);
   $storyLi.remove();
 }
-
 
 $("ol").on("click", ".trash", handleTrashClick);

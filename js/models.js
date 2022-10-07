@@ -80,6 +80,7 @@ class StoryList {
     const { title, author, url } = newStory;
     const token = user.loginToken;
 
+    //Pushing onto the server
     const response = await axios({
       method: "POST",
       url: `${BASE_URL}/stories/`,
@@ -92,9 +93,9 @@ class StoryList {
       },
     } = response;
 
-    storyList.stories.unshift(newStory);
-    currentUser.ownStories.push($(newStory));
-
+    //storyList.stories.unshift($(newStory));
+    // console.log(newStory, "newStory");
+    //currentUser.ownStories.push($(newStory));
 
     return new Story({ storyId, title, author, url, username, createdAt });
   }
@@ -254,11 +255,10 @@ class User {
       data: { token },
     });
 
-    console.log('story removed')
+    console.log("story removed");
 
     //removes story from current favorites list
     this.ownStories.splice(index, 1);
-
   }
 
   // click handler for favorites button submit
