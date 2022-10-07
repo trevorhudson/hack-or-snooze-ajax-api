@@ -45,6 +45,7 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+    //if stories is in favorites list
     $allStoriesList.append($story);
   }
 
@@ -95,7 +96,6 @@ async function submitNewStory(e) {
  * Area for Handling user favorite stories
  */
 
-
 /** Function takes in a story, and it's favorite icon DOM element.
  * Toggles the story to add to the favorites list, or remove it.
  * Will also remove the page from the DOM.
@@ -124,8 +124,6 @@ function changeIcon(eventTarget) {
   eventTarget.toggleClass(icons);
 }
 
-
-
 /** Function searches favorites stories for the target story
  * Takes in a story, returns the index of the story if found, or -1.
  */
@@ -144,23 +142,18 @@ function findFavStoryById(storyID, { stories }) {
   // console.log("findFavStoryById passes in", storyID);
 
   return stories.find(({ storyId }) => storyId === storyID);
-
 }
-
 
 /** function handles clicks to each stories favorites icon.  */
 function handleFavoritesClick(e) {
   e.preventDefault();
 
   const $targetIcon = $(e.target);
-  const $storyLi = $targetIcon.closest("li")
-  const storyId = $storyLi[0].id
+  const $storyLi = $targetIcon.closest("li");
+  const storyId = $storyLi[0].id;
   const $story = findFavStoryById(storyId, storyList);
 
   toggleFavorite($story, $targetIcon);
-  $storyLi.remove();
-
-
 }
 
 $("ol").on("click", "span", handleFavoritesClick);
