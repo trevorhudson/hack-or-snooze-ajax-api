@@ -52,7 +52,7 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** /** Gets list of favorited stories from current user.
+/** Gets list of favorited stories from current user.
  * generates HTML, and puts on page. */
 
 function putFavoritesOnPage() {
@@ -98,17 +98,16 @@ async function submitNewStory(e) {
 
 /** Function takes in a story, and it's favorite icon DOM element.
  * Toggles the story to add to the favorites list, or remove it.
- * Will also remove the page from the DOM.
  */
 function toggleFavorite(story, targetIcon) {
   const index = findIndexFavStory(story);
 
-  //if story already in favorites
+  //if story not already in favorites
   if (index === -1) {
     currentUser.addFavorite(story);
     console.log("story added to favorites");
 
-    // if story not in favorites
+    // if story already in favorites
   } else {
     currentUser.removeFavorite(story, index);
     console.log("story removed from favorites");
@@ -141,7 +140,9 @@ function findIndexFavStory(story) {
 function findFavStoryById(storyID, { stories }) {
   // console.log("findFavStoryById passes in", storyID);
 
-  return stories.find(({ storyId }) => storyId === storyID);
+  const story = stories.find(({ storyId }) => storyId === storyID);
+  console.log(story);
+  return story;
 }
 
 /** function handles clicks to each stories favorites icon.  */
@@ -150,7 +151,7 @@ function handleFavoritesClick(e) {
 
   const $targetIcon = $(e.target);
   const $storyLi = $targetIcon.closest("li");
-  const storyId = $storyLi[0].id;
+  const storyId = $storyLi.attr("id");
   const $story = findFavStoryById(storyId, storyList);
 
   toggleFavorite($story, $targetIcon);

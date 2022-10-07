@@ -212,8 +212,8 @@ class User {
   /** Takes a story object and adds to favorites in server */
   async addFavorite(story) {
     const { storyId } = story;
-    const { username } = currentUser;
-    const token = currentUser.loginToken;
+    const { username } = this;
+    const token = this.loginToken;
 
     const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
@@ -228,8 +228,8 @@ class User {
   /** Takes a story object and an index, removes story from favorites list */
   async removeFavorite(story, index) {
     const { storyId } = story;
-    const { username } = currentUser;
-    const token = currentUser.loginToken;
+    const { username } = this;
+    const token = this.loginToken;
 
     const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
@@ -238,10 +238,9 @@ class User {
     });
 
     //removes story from current favorites list
-    currentUser.favorites.splice(index, 1);
+    this.favorites.splice(index, 1);
   }
 
   // click handler for favorites button submit
   // calls isFavorite function
-
 }
