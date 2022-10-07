@@ -46,3 +46,14 @@ function showNewStoryForm(evt) {
   $(".storyForm").css("display", "block");
 }
 
+$(".favoritesList").on("click", displayFavoritesList);
+
+/**  */
+function displayFavoritesList() {
+  //clear the stories container
+  //append the favorites on the page
+  //create a instance of StoryList
+  //give it currentUser favorites
+  //storyList = new StoryList(currentUser.favorites);
+  putFavoritesOnPage();
+}

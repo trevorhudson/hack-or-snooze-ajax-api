@@ -209,10 +209,6 @@ class User {
     }
   }
 
-
-
-
-
   /** Takes a story object and adds to favorites in server */
   async addFavorite(story) {
     const { storyId } = story;
@@ -227,7 +223,6 @@ class User {
 
     // add story to current favorites list
     currentUser.favorites.push(story);
-
   }
 
   /** Takes a story object and an index, removes story from favorites list */
@@ -242,12 +237,9 @@ class User {
       data: { token },
     });
 
-   //removes story from current favorites list
+    //removes story from current favorites list
     currentUser.favorites.splice(index, 1);
-
   }
-
-
 
   // click handler for favorites button submit
   // calls isFavorite function
@@ -256,14 +248,5 @@ class User {
     e.preventDefault();
     const { story } = e.target;
     this.toggleFavorite(story);
-
   }
-
-
-
-
-
-
-
 }
-
