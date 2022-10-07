@@ -49,11 +49,9 @@ function showNewStoryForm(evt) {
 $(".favoritesList").on("click", displayFavoritesList);
 
 /**  */
-function displayFavoritesList() {
-  //clear the stories container
-  //append the favorites on the page
-  //create a instance of StoryList
-  //give it currentUser favorites
-  //storyList = new StoryList(currentUser.favorites);
+function displayFavoritesList(evt) {
+  console.debug("displayFavoritesList", evt);
+  evt.preventDefault();
+  hidePageComponents();
   putFavoritesOnPage();
 }

@@ -244,9 +244,4 @@ class User {
   // click handler for favorites button submit
   // calls isFavorite function
 
-  handleFavoritesClick(e) {
-    e.preventDefault();
-    const { story } = e.target;
-    this.toggleFavorite(story);
-  }
 }
