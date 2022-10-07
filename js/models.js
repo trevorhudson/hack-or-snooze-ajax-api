@@ -20,6 +20,10 @@ class Story {
     this.createdAt = createdAt;
   }
 
+  /** parses story from storyID */
+  static getStoryID(story) {
+    return story.storyId;
+  }
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
@@ -205,17 +209,35 @@ class User {
     }
   }
 
+
+
+
+
   /** Takes a story object and adds to favorites in server */
   async addFavorite(story) {
     const { storyId } = story;
     const { username } = currentUser;
     const token = currentUser.loginToken;
 
-    let response = await axios({
+    // check if story is in favorites. return if already in favorites. else continue
+
+    // if story already in favorites, return;
+    if (this.findMatchingStoryID(story) !== -1){
+      return;
+    }
+
+    const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
       method: "POST",
       data: { token },
     });
+
+    //
+
+
+    // add to current favorites list
+    currentUser.favorites.push(story);
+
   }
 
   /** Takes a story object and removes from favorites in server */
@@ -229,5 +251,21 @@ class User {
       method: "DELETE",
       data: { token },
     });
+
+    // checks for matching story, removes from current favorites
+    currentUser.favorites.splice(this.findMatchingStoryID(story), 1);
+
   }
+
+
+  /** finds Index of a target story in favorites */
+  findMatchingStoryID(story){
+    const {favorites} = currentUser;
+    return favorites.indexOf(story);
+  }
+
+
+
+
 }
+
