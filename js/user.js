@@ -114,3 +114,20 @@ function updateUIOnUserLogin() {
 
   updateNavOnLogin();
 }
+
+//user profile
+//function to edit button
+//call the data for currentUser or this user
+//get the name and password(logintoken) in currentUser
+//name and password. keys or methods on what comes back
+//
+//const {name} change the value of the username
+//kind of like signUp,
+//https://hack-or-snooze-v3.herokuapp.com/users/username
+//post request cause changing name
+//changing username and password?
+//update currentUser
+//currentUser = await User.signup(username, password, name);
+//get what is returned and update the name and password
+//function login on 12
+//workign with users class methods (login & signUp)

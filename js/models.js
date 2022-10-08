@@ -48,6 +48,7 @@ class StoryList {
    *  - returns the StoryList instance.
    */
 
+  //when we call this, go into stories and get the information from the server.
   static async getStories() {
     // Note presence of `static` keyword: this indicates that getStories is
     //  **not** an instance method. Rather, it is a method that is called on the
@@ -61,6 +62,7 @@ class StoryList {
     });
 
     // turn plain old story objects from API into instances of Story class
+    //takes array of objects and returns a list of stories.
     const stories = response.data.stories.map((story) => new Story(story));
 
     // build an instance of our own class using the ne  w array of stories
@@ -97,6 +99,7 @@ class StoryList {
     // console.log(newStory, "newStory");
     //currentUser.ownStories.push($(newStory));
 
+    //created the data and now returning it
     return new Story({ storyId, title, author, url, username, createdAt });
   }
 }

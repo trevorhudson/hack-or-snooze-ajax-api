@@ -48,7 +48,6 @@ function showNewStoryForm(evt) {
 
 $(".favoritesList").on("click", displayFavoritesList);
 
-
 /** When clicked, display favorites list */
 function displayFavoritesList(evt) {
   console.debug("displayFavoritesList", evt);

@@ -108,15 +108,19 @@ async function submitNewStory(e) {
   const author = $(".authorInput").val();
   const url = $(".linkInput").val();
 
+  //add Story => delivering data
   let $newStory = await storyList.addStory(currentUser, {
     title: title,
     author: author,
     url: url,
   });
 
+  //append to the DOM. Interacting with the DOM
   $allStoriesList.prepend(generateStoryMarkup($newStory));
+  //interacting with the storyList. Talking to JS. Held in JS memory *Local storage
   storyList.stories.unshift($newStory);
   //console.log(newStory, "newStory");
+  //its own kinda database. Internal JS memory. *Local storage
   currentUser.ownStories.push($newStory);
   $(".storyForm input").val("");
   $(".storyForm").css("display", "none");
